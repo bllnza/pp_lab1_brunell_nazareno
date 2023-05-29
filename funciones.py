@@ -120,4 +120,60 @@ def logros_por_nombre(jugadores: list, nombre_jugador:str):
 
 
 
+def promedio_puntos_por_partido(jugadores: list):
+    """
+    Imprime el nombre y el promedio de puntos por partido de cada jugador de la lista
+    
+    Recibe como parámetro una lista
+    """
+    for jugador in jugadores:
+        formato = '{0} - {1}'.format(
+            jugador['nombre'],
+            jugador['estadisticas']['promedio_puntos_por_partido']
+        )
+        print(formato)
+
+
+
+
+
+def nombre_salon_de_la_fama(jugadores:list, nombre_jugador:str):
+    """
+    Recibe el nombre de un basquetbolista y busca si dentro de sus logros es parte del salón de la fama
+    
+    Recibe una lista y un string
+    """
+    jugador_encontrado = None
+    for jugador in jugadores:
+        if jugador['nombre'] == nombre_jugador:
+            jugador_encontrado = jugador
+            break
+    if jugador_encontrado is not None:
+        logros = jugador_encontrado['logros']
+        if 'Miembro del Salon de la Fama del Baloncesto' in logros:
+            print('{0} es miembro del salón de la fama'.format(nombre_jugador))
+        else:
+            print('{0} no es miembro del salón de la fama'.format(nombre_jugador))
+    else:
+        print('No se encuentra el jugador')
+
+
+
+def mayor_cantidad(jugadores:list, clave: str) -> str:
+    """
+    Toma la lista de jugadores y devuelve un string indicando quién sea el que tenga mayores estadísticas en la clave seleccionada
+    
+    Recibe como parámetro 'jugadores'(lista), 'clave'(la estadística que se desea calcular)
+    """
+    mayor_rebotes_totales = 0
+    jugador_con_mas = jugadores[0]['estadisticas'][clave]
+    for jugador in jugadores:
+        if (jugador['estadisticas'][clave] > mayor_rebotes_totales):
+            mayor_rebotes_totales = jugador['estadisticas'][clave]
+            jugador_con_mas = jugador['nombre']
+    formato = 'el jugador con más cántidad es: {0}'.format(
+        jugador_con_mas
+    )
+    return formato
+
 

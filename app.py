@@ -48,14 +48,17 @@ while True:
         case "4":
             nombre_jugador = input('ingrese nombre de jugador')
             print(funciones.logros_por_nombre(jugadores, nombre_jugador))
+        case "5":
+            funciones.promedio_puntos_por_partido(jugadores)
         case "6":
-            pass
+            nombre_jugador = input('ingrese nombre de jugador')
+            funciones.nombre_salon_de_la_fama(jugadores, nombre_jugador)
         case "7":
-            pass
+            print(funciones.mayor_cantidad(jugadores, 'rebotes_totales'))
         case "8":
-            pass
+            print(funciones.mayor_cantidad(jugadores, 'porcentaje_tiros_de_campo'))
         case "9":
-            pass
+            print(funciones.mayor_cantidad(jugadores, 'asistencias_totales'))
         case "10":
             pass
         case "11":
@@ -77,8 +80,6 @@ while True:
         case "19":
             pass
         case "20":
-            pass
-        case "21":
             pass
         case '0':
             exit()
