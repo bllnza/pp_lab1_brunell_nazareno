@@ -95,8 +95,7 @@ def generar_csv(jugadores:list, jugador_seleccionado: str):
         print('No se seleccionó ningún jugador')
 
 
-#Permitir al usuario buscar un jugador por su nombre y mostrar sus logros, como campeonatos de la NBA, participaciones en el All-Star y pertenencia al Salón de la Fama del Baloncesto,
-#  etc.
+
 
 def logros_por_nombre(jugadores: list, nombre_jugador:str):
     """
