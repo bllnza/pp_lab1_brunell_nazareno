@@ -42,11 +42,12 @@ while True:
             funciones.mostrar_jugadores(jugadores)
         case "2":
             indice_jugador = input('ingrese el índice del jugador que quiere ver')
-            print(funciones.seleccionar_por_indice(jugadores, indice_jugador))
+            print(funciones.estadisticas_por_indice(jugadores, indice_jugador))
         case "3":
-            funciones.generar_csv(jugadores, funciones.seleccionar_por_indice(jugadores, indice_jugador))
-        case "5":
-            pass
+            funciones.generar_csv(jugadores, funciones.estadisticas_por_indice(jugadores, indice_jugador))
+        case "4":
+            nombre_jugador = input('ingrese nombre de jugador')
+            print(funciones.logros_por_nombre(jugadores, nombre_jugador))
         case "6":
             pass
         case "7":

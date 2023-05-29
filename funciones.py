@@ -27,7 +27,7 @@ def mostrar_jugadores(jugadores: list):
 
 
 
-def seleccionar_por_indice(jugadores: list, indice_jugador: str) -> str:
+def estadisticas_por_indice(jugadores: list, indice_jugador: str) -> str:
     """
     Recibe un número de índice ingresado para mostrar las estadísticas del jugador
     
@@ -93,5 +93,32 @@ def generar_csv(jugadores:list, jugador_seleccionado: str):
             archivo.write(mensaje)
     else:
         print('No se seleccionó ningún jugador')
+
+
+#Permitir al usuario buscar un jugador por su nombre y mostrar sus logros, como campeonatos de la NBA, participaciones en el All-Star y pertenencia al Salón de la Fama del Baloncesto,
+#  etc.
+
+def logros_por_nombre(jugadores: list, nombre_jugador:str):
+    """
+    Recibe un nombre ingresado para mostrar los logros del jugador deseado
+    
+    Recibe como parámetro 'jugadores', que es una lista de diccionarios 
+    Devuelve un string que muestra los logros y el nombre del jugador seleccionado. En caso de no encontralo, devuelve -1
+    """
+    for jugador in jugadores:
+        if jugador['nombre'] == nombre_jugador:
+            logros = jugador.get('logros')
+            formato =('Logros de {0}: \n'
+                            '{1}'.format(
+                                nombre_jugador,
+                                logros
+                            ))
+            return formato
+        else:
+            return -1
+
+
+
+
 
 
