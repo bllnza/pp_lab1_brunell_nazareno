@@ -7,7 +7,7 @@ with open("pp_lab1_brunell_nazareno\dt.json") as file:
 
 jugadores = data['jugadores']
 
-
+indice_jugador = None
 
 while True:
     # Mostrar menú de opciones
@@ -44,7 +44,10 @@ while True:
             indice_jugador = input('ingrese el índice del jugador que quiere ver')
             print(funciones.estadisticas_por_indice(jugadores, indice_jugador))
         case "3":
-            funciones.generar_csv(jugadores, funciones.estadisticas_por_indice(jugadores, indice_jugador))
+            if (indice_jugador is not None):
+                funciones.generar_csv(jugadores, funciones.estadisticas_por_indice(jugadores, indice_jugador))
+            else:
+                'No se ha declarado un índice'
         case "4":
             nombre_jugador = input('ingrese nombre de jugador')
             print(funciones.logros_por_nombre(jugadores, nombre_jugador))
@@ -60,25 +63,35 @@ while True:
         case "9":
             print(funciones.mayor_cantidad(jugadores, 'asistencias_totales'))
         case "10":
-            pass
+            valor_a_superar = input('Ingrese un valor a superar')
+            valor_a_superar = float(valor_a_superar)
+            funciones.mayor_que_el_valor(jugadores, valor_a_superar, 'promedio_puntos_por_partido')
         case "11":
-            pass
+            valor_a_superar = input('Ingrese un valor a superar')
+            valor_a_superar = float(valor_a_superar)
+            funciones.mayor_que_el_valor(jugadores, valor_a_superar, 'promedio_rebotes_por_partido')
         case "12":
-            pass
+            valor_a_superar = input('Ingrese un valor a superar')
+            valor_a_superar = float(valor_a_superar)
+            funciones.mayor_que_el_valor(jugadores, valor_a_superar, 'promedio_asistencias_por_partido')
         case "13":
-            pass
+            print(funciones.mayor_cantidad(jugadores, 'robos_totales'))
         case "14":
-            pass
+            print(funciones.mayor_cantidad(jugadores, 'bloqueos_totales'))
         case "15":
-            pass
+            valor_a_superar = input('Ingrese un valor a superar')
+            valor_a_superar = float(valor_a_superar)
+            funciones.mayor_que_el_valor(jugadores, valor_a_superar, 'porcentaje_tiros_libres')
         case "16":
             pass
         case "17":
             pass
         case "18":
-            pass
+            valor_a_superar = input('Ingrese un valor a superar')
+            valor_a_superar = float(valor_a_superar)
+            funciones.mayor_que_el_valor(jugadores, valor_a_superar, 'porcentaje_tiros_triples')
         case "19":
-            pass
+            print(funciones.mayor_cantidad(jugadores, 'temporadas'))
         case "20":
             pass
         case '0':
