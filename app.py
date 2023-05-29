@@ -1,6 +1,6 @@
 import funciones
 import json
-import re
+
 
 with open("pp_lab1_brunell_nazareno\dt.json") as file:
     data = json.load(file)
