@@ -1,11 +1,6 @@
 import json
 import re
 
-with open("pp_lab1_brunell_nazareno\dt.json") as file:
-    data = json.load(file)
-
-jugadores = data['jugadores']
-
 
 
 def mostrar_jugadores(jugadores: list):
@@ -175,11 +170,13 @@ def mayor_cantidad(jugadores:list, clave: str) -> str:
     return formato
 
 
-#Permitir al usuario ingresar un valor y mostrar los jugadores que han promediado más puntos por partido que ese valor.
-valor_a_superar = input('Ingrese un valor a superar')
-valor_a_superar = float(valor_a_superar)
+
 def mayor_que_el_valor(jugadores:list, valor_a_superar: float, clave: str):
-    lista_aux_mayor_valor = []
+    """
+    Toma la lista de jugadores y devuelve un string indicando quién sea el que tenga mayores estadísticas en la clave seleccionada que el valor ingresado
+    
+    Recibe como parámetro 'jugadores'(lista), 'clave'(la estadística que se desea calcular) y  'valor_a_superar'(el valor que ingresa el usuario)
+    """
     for jugador in jugadores:
         if(jugador['estadisticas'][clave] > valor_a_superar):
             print('{0} supera el valor ingresado'.format(
@@ -188,5 +185,41 @@ def mayor_que_el_valor(jugadores:list, valor_a_superar: float, clave: str):
 
 
 
+def mayor_cantidad_logros(jugadores: list) -> str:
+    """
+    Toma la lista de jugadores y devuelve un string indicando quién es el que mayor cantidad de logros tiene
+    
+    Recibe como parámetro 'jugadores'(lista)
+    """
+    mayor_logros = 0
+    jugador_con_mas = jugadores[0]['logros']
+    for jugador in jugadores:
+        if (len(jugador['logros']) > mayor_logros):
+            mayor_logros = len(jugador['logros'])
+            jugador_con_mas = jugador['nombre']
+    formato = 'el jugador con más cántidad de logros es: {0}'.format(
+        jugador_con_mas
+    )
+    return formato
 
-mayor_que_el_valor(jugadores, valor_a_superar, 'promedio_puntos_por_partido')
+
+
+def promedio_puntos_sin_menor(jugadores:list) -> list:
+    """
+    Toma la lista de jugadores y devuelve una lista que excluye al jugador que menos promedio de puntos tenga.
+    
+    Recibe como parámetro 'jugadores'(lista)
+    """
+    menor_promedio_puntos = float('inf')
+    jugador_con_menos = jugadores[0]['estadisticas']['promedio_puntos_por_partido']
+    lista_aux = []
+    for jugador in jugadores:
+        if (jugador['estadisticas']['promedio_puntos_por_partido'] < menor_promedio_puntos):
+            menor_promedio_puntos = jugador['estadisticas']['promedio_puntos_por_partido']
+            jugador_con_menos = jugador['nombre']
+    for jugador in jugadores:
+        if (jugador['nombre'] != jugador_con_menos):
+            lista_aux.append(jugador['nombre'])
+
+    return lista_aux
+

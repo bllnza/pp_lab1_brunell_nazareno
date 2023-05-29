@@ -32,7 +32,6 @@ while True:
     print("18. ")
     print("19. ")
     print("20. ")
-    print("21. ")
 
     print("0. Salir del programa")
     opcion = input("\nIngrese la opción deseada: ")
@@ -83,9 +82,9 @@ while True:
             valor_a_superar = float(valor_a_superar)
             funciones.mayor_que_el_valor(jugadores, valor_a_superar, 'porcentaje_tiros_libres')
         case "16":
-            pass
+            print(funciones.promedio_puntos_sin_menor(jugadores))
         case "17":
-            pass
+            print(funciones.mayor_cantidad_logros(jugadores))
         case "18":
             valor_a_superar = input('Ingrese un valor a superar')
             valor_a_superar = float(valor_a_superar)
