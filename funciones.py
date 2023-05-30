@@ -1,7 +1,10 @@
 import json
 import re
 
+with open("pp_lab1_brunell_nazareno\dt.json") as file:
+    data = json.load(file)
 
+jugadores = data['jugadores']
 
 def mostrar_jugadores(jugadores: list):
     """
@@ -113,17 +116,21 @@ def logros_por_nombre(jugadores: list, nombre_jugador:str):
 
 def promedio_puntos_por_partido(jugadores: list):
     """
-    Imprime el nombre y el promedio de puntos por partido de cada jugador de la lista
+    Imprime el nombre y el promedio de puntos por partido de cada jugador de la lista, ordenados por nombre de la A a la Z
     
     Recibe como parámetro una lista
     """
+    nombre_promedio_jugadores = []
     for jugador in jugadores:
-        formato = '{0} - {1}'.format(
-            jugador['nombre'],
-            jugador['estadisticas']['promedio_puntos_por_partido']
-        )
-        print(formato)
+        nombre = jugador['nombre']
+        promedio_puntos = jugador['estadisticas']['promedio_puntos_por_partido']
+        nombre_promedio_jugadores.append((nombre, promedio_puntos))
 
+    nombre_promedio_jugadores.sort()
+
+    for nombre, promedio_puntos in nombre_promedio_jugadores:
+        formato = '{0} - {1}'.format(nombre, promedio_puntos)
+        print(formato)
 
 
 
@@ -222,4 +229,5 @@ def promedio_puntos_sin_menor(jugadores:list) -> list:
             lista_aux.append(jugador['nombre'])
 
     return lista_aux
+
 
