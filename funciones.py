@@ -277,9 +277,6 @@ def cant_jugadores_posicion(jugadores:list):
             valor
         ))
 
-#Determinar qué jugador tiene las mejores estadísticas en cada valor. La salida por pantalla debe tener un formato similar a este:
-#Mayor cantidad de temporadas: Karl Malone (19)
-#Mayor cantidad de puntos totales: Karl Malon (36928)
 
 def mejores_cada_estadistica(jugadores:list):
     """
