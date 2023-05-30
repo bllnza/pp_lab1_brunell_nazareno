@@ -32,7 +32,7 @@ while True:
     print("18. ")
     print("19. ")
     print("20. ")
-    print("23. ")
+    print("extra 1. ")
 
     print("0. Salir del programa")
     opcion = input("\nIngrese la opción deseada: ")
@@ -96,8 +96,8 @@ while True:
             valor_a_superar = input('Ingrese un valor a superar')
             valor_a_superar = float(valor_a_superar)
             funciones.porcentaje_tiros_campo_posicion(jugadores, valor_a_superar)
-        case "23":
-            pass
+        case "extra 1":
+            funciones.cant_jugadores_posicion(jugadores)
         case '0':
             exit()
         case _:

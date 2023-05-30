@@ -1,5 +1,10 @@
 import re
+import json
 
+with open("pp_lab1_brunell_nazareno\dt.json") as file:
+    data = json.load(file)
+
+jugadores = data['jugadores']
 
 def mostrar_jugadores(jugadores: list):
     """
@@ -248,4 +253,26 @@ def porcentaje_tiros_campo_posicion(jugadores:list, valor_a_superar:float):
                 porcentaje
             ))
 
+
+
+
+def cant_jugadores_posicion(jugadores:list):
+    """
+    Toma como parámetro la lista de jugadores e imprime la cantidad de jugadores que juegan en cada posición
+    """
+    diccionario_posiciones  = {}
+    
+    for jugador in jugadores:
+        nombre_posicion = jugador['posicion']
+
+        if nombre_posicion in diccionario_posiciones:
+            diccionario_posiciones[nombre_posicion] += 1
+        else:
+            diccionario_posiciones[nombre_posicion] = 1
+
+    for clave, valor in diccionario_posiciones.items():
+        print('{0}: {1}'.format(
+            clave,
+            valor
+        ))
 
