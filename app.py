@@ -33,7 +33,7 @@ while True:
     print("19. ")
     print("20. ")
     print("extra 1. ")
-    print("extra 2. ")
+    print("extra 3. ")
 
     print("0. Salir del programa")
     opcion = input("\nIngrese la opción deseada: ")
@@ -99,7 +99,7 @@ while True:
             funciones.porcentaje_tiros_campo_posicion(jugadores, valor_a_superar)
         case "extra 1":
             funciones.cant_jugadores_posicion(jugadores)
-        case "extra 2":
+        case "extra 3":
             funciones.mejores_cada_estadistica(jugadores)
         case '0':
             exit()
