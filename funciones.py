@@ -38,7 +38,7 @@ def estadisticas_por_indice(jugadores: list, indice_jugador: str) -> str:
         if 0 <= indice_jugador < len(jugadores):
                 jugador = jugadores[indice_jugador]
                 estadisticas = jugador['estadisticas']
-                jugador_seleccionado = ("Estadisticas de {0}: \n"
+                jugador_seleccionado = ("{0}\n"
                                         "Temporadas jugadas: {1}\n"
                                         "Puntos totales: {2}\n"
                                         "Promedio de puntos por partido: {3}\n"
@@ -169,9 +169,10 @@ def mayor_cantidad(jugadores:list, clave: str) -> str:
             mayor_cantidad_total = jugador['estadisticas'][clave]
             jugador_con_mas = jugador['nombre']
     clave_formateada = clave.replace('_', ' ')
-    formato = 'el jugador con más cántidad de {0} es: {1}'.format(
+    formato = 'el jugador con más cántidad de {0} es: {1} ({2})'.format(
         clave_formateada,
-        jugador_con_mas
+        jugador_con_mas,
+        mayor_cantidad_total
     )
     return formato
 
@@ -275,4 +276,19 @@ def cant_jugadores_posicion(jugadores:list):
             clave,
             valor
         ))
+
+#Determinar qué jugador tiene las mejores estadísticas en cada valor. La salida por pantalla debe tener un formato similar a este:
+#Mayor cantidad de temporadas: Karl Malone (19)
+#Mayor cantidad de puntos totales: Karl Malon (36928)
+
+def mejores_cada_estadistica(jugadores:list):
+    """
+    Toma como parámetro la lista de jugadores e imprime quién es el jugador que mayores estadísticas posee en cada estadística
+    """
+    claves_estadisticas = jugadores[0]['estadisticas'].keys()
+
+    for clave in claves_estadisticas:
+        resultado = mayor_cantidad(jugadores, clave)
+        print(resultado)
+
 
