@@ -12,16 +12,16 @@ indice_jugador = None
 while True:
     # Mostrar menú de opciones
     print("Menú de opciones:")
-    print("1.")
-    print("2.")
-    print("3.  ")
+    print("1. ")
+    print("2. ")
+    print("3. ")
     print("4. ")
     print("5. ")
     print("6. ")
     print("7. ")
     print("8. ")
     print("9. ")
-    print("10..")
+    print("10. ")
     print("11. ")
     print("12. ")
     print("13. ")
@@ -32,6 +32,7 @@ while True:
     print("18. ")
     print("19. ")
     print("20. ")
+    print("21. ")
 
     print("0. Salir del programa")
     opcion = input("\nIngrese la opción deseada: ")
@@ -95,6 +96,8 @@ while True:
             valor_a_superar = input('Ingrese un valor a superar')
             valor_a_superar = float(valor_a_superar)
             funciones.porcentaje_tiros_campo_posicion(jugadores, valor_a_superar)
+        case "23":
+            pass
         case '0':
             exit()
         case _:
