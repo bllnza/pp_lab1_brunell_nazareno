@@ -92,7 +92,9 @@ while True:
         case "19":
             print(funciones.mayor_cantidad(jugadores, 'temporadas'))
         case "20":
-            pass
+            valor_a_superar = input('Ingrese un valor a superar')
+            valor_a_superar = float(valor_a_superar)
+            funciones.porcentaje_tiros_campo_posicion(jugadores, valor_a_superar)
         case '0':
             exit()
         case _:

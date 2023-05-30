@@ -1,10 +1,5 @@
-import json
 import re
 
-with open("pp_lab1_brunell_nazareno\dt.json") as file:
-    data = json.load(file)
-
-jugadores = data['jugadores']
 
 def mostrar_jugadores(jugadores: list):
     """
@@ -145,7 +140,6 @@ def nombre_salon_de_la_fama(jugadores:list, nombre_jugador:str):
     for jugador in jugadores:
         if jugador['nombre'] == nombre_jugador:
             jugador_encontrado = jugador
-            break
     if jugador_encontrado is not None:
         logros = jugador_encontrado['logros']
         if 'Miembro del Salon de la Fama del Baloncesto' in logros:
@@ -180,7 +174,7 @@ def mayor_cantidad(jugadores:list, clave: str) -> str:
 
 def mayor_que_el_valor(jugadores:list, valor_a_superar: float, clave: str):
     """
-    Toma la lista de jugadores y devuelve un string indicando quién sea el que tenga mayores estadísticas en la clave seleccionada que el valor ingresado
+    Toma la lista de jugadores e imprime un string indicando si se superan las estadísticas en la clave seleccionada que el valor ingresado
     
     Recibe como parámetro 'jugadores'(lista), 'clave'(la estadística que se desea calcular) y  'valor_a_superar'(el valor que ingresa el usuario)
     """
@@ -194,7 +188,7 @@ def mayor_que_el_valor(jugadores:list, valor_a_superar: float, clave: str):
 
 def mayor_cantidad_logros(jugadores: list) -> str:
     """
-    Toma la lista de jugadores y devuelve un string indicando quién es el que mayor cantidad de logros tiene
+    Toma la lista de jugadores e imprime un string indicando quién es el que mayor cantidad de logros tiene
     
     Recibe como parámetro 'jugadores'(lista)
     """
@@ -229,5 +223,29 @@ def promedio_puntos_sin_menor(jugadores:list) -> list:
             lista_aux.append(jugador['nombre'])
 
     return lista_aux
+
+
+
+def porcentaje_tiros_campo_posicion(jugadores:list, valor_a_superar:float):
+    """
+    Toma la lista de jugadores e imprime un string indicando quién sea el que tenga mayores estadísticas en la clave seleccionada que el valor ingresado
+    El string los muestra ordenados según su posición.
+    
+    Recibe como parámetro 'jugadores'(lista), 'clave'(la estadística que se desea calcular) y  'valor_a_superar'(el valor que ingresa el usuario)
+    """
+    posicion_nombre_porcentaje_jugadores = []
+    for jugador in jugadores:
+        if(jugador['estadisticas']['porcentaje_tiros_de_campo'] > valor_a_superar):
+            posicion = jugador['posicion']
+            nombre = jugador['nombre']
+            porcentaje = jugador['estadisticas']['porcentaje_tiros_de_campo']
+            posicion_nombre_porcentaje_jugadores.append((posicion, nombre, porcentaje))
+    posicion_nombre_porcentaje_jugadores.sort()
+    for posicion, nombre, porcentaje in posicion_nombre_porcentaje_jugadores:
+        print('{0} - {1} - {2}'.format(
+                posicion,
+                nombre,
+                porcentaje
+            ))
 
 
