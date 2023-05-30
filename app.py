@@ -32,7 +32,7 @@ while True:
     print("18. ")
     print("19. ")
     print("20. ")
-    print("21. ")
+    print("23. ")
 
     print("0. Salir del programa")
     opcion = input("\nIngrese la opción deseada: ")
