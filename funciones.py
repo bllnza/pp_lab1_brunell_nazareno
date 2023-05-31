@@ -1,10 +1,5 @@
 import re
-import json
 
-with open("pp_lab1_brunell_nazareno\dt.json") as file:
-    data = json.load(file)
-
-jugadores = data['jugadores']
 
 def mostrar_jugadores(jugadores: list):
     """
@@ -287,5 +282,4 @@ def mejores_cada_estadistica(jugadores:list):
     for clave in claves_estadisticas:
         resultado = mayor_cantidad(jugadores, clave)
         print(resultado)
-
 
