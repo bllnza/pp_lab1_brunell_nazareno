@@ -30,7 +30,7 @@ def estadisticas_por_indice(jugadores: list, indice_jugador: str) -> str:
 
     if (re.match(r'^\d+$', indice_jugador)):
         indice_jugador = int(indice_jugador)
-        if 0 < indice_jugador < len(jugadores):
+        if 0 <= indice_jugador < len(jugadores):
                 jugador = jugadores[indice_jugador]
                 estadisticas = jugador['estadisticas']
                 jugador_seleccionado = ("{0}\n"
