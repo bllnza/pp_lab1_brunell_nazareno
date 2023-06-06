@@ -1,5 +1,11 @@
 import re
+import quicksort
+import json
 
+with open("pp_lab1_brunell_nazareno\dt.json") as file:
+    data = json.load(file)
+
+jugadores = data['jugadores']
 
 def mostrar_jugadores(jugadores: list):
     """
@@ -20,7 +26,7 @@ def mostrar_jugadores(jugadores: list):
 
 
 
-def estadisticas_por_indice(jugadores: list, indice_jugador: str) -> str:
+def mostrar_estadisticas_por_indice_ingresado(jugadores: list, indice_jugador: int) -> str:
     """
     Recibe un número de índice ingresado para mostrar las estadísticas del jugador
     
@@ -28,12 +34,11 @@ def estadisticas_por_indice(jugadores: list, indice_jugador: str) -> str:
     Devuelve un string que muestra las estadísticas y el nombre del jugador seleccionado
     """
 
-    if (re.match(r'^\d+$', indice_jugador)):
-        indice_jugador = int(indice_jugador)
-        if 0 <= indice_jugador < len(jugadores):
-                jugador = jugadores[indice_jugador]
-                estadisticas = jugador['estadisticas']
-                jugador_seleccionado = ("{0}\n"
+    
+    if (0 <= indice_jugador) and (indice_jugador < len(jugadores)):
+            jugador = jugadores[indice_jugador]
+            estadisticas = jugador['estadisticas']
+            jugador_seleccionado = ("{0}\n"
                                         "Temporadas jugadas: {1}\n"
                                         "Puntos totales: {2}\n"
                                         "Promedio de puntos por partido: {3}\n"
@@ -61,55 +66,90 @@ def estadisticas_por_indice(jugadores: list, indice_jugador: str) -> str:
                                             estadisticas['porcentaje_tiros_triples']
                                         )
                                     )
-        else:
-            print('El índice ingresado no es válido')
+            return jugador_seleccionado
     else:
-        print('el índice ingresado no es válido')
-
-
-    return jugador_seleccionado
+        print('El índice ingresado no es válido')
 
 
 
-
-def generar_csv(jugadores:list, jugador_seleccionado: str):
+def armar_mensaje_para_indice_csv(jugadores:list, indice_jugador:int) -> str:
     """
-    Genera un csv si se declaró un índice en la función anterior. Sino, imprime un mensaje aclarando que no se declaró
-    
-    Recibe como parámetro la lista de jugadores y al jugador seleccionado de la función anterior
+    Toma la lista de jugadores y el índice ingresado por el jugador
+    Devuelve un str para poder generar un csv
     """
-    with open('jugador_seleccionado.csv', 'w') as archivo:
-        mensaje = jugador_seleccionado.replace('\n', ', ')
+    jugador = jugadores[indice_jugador]
+    mensaje = "{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}\n"
+    mensaje = mensaje.format(
+                jugador["nombre"],
+                jugador["posicion"],
+                jugador["estadisticas"]["temporadas"],
+                jugador["estadisticas"]["puntos_totales"],
+                jugador["estadisticas"]["promedio_puntos_por_partido"],
+                jugador["estadisticas"]["rebotes_totales"],
+                jugador["estadisticas"]["promedio_rebotes_por_partido"],
+                jugador["estadisticas"]["asistencias_totales"],
+                jugador["estadisticas"]["promedio_asistencias_por_partido"],
+                jugador["estadisticas"]["robos_totales"],
+                jugador["estadisticas"]["bloqueos_totales"],
+                jugador["estadisticas"]["porcentaje_tiros_de_campo"],
+                jugador["estadisticas"]["porcentaje_tiros_libres"],
+                jugador["estadisticas"]["porcentaje_tiros_triples"]
+    )
+    return mensaje
+
+
+def generar_csv(ruta: str, mensaje:str):
+    """
+    Toma como parámetro una ruta y un mensaje para generar un csv
+    """
+    with open(ruta, 'w') as archivo:
         archivo.write(mensaje)
 
 
-
-
-
-def logros_por_nombre(jugadores: list, nombre_jugador:str):
+def encontrar_nombre_jugador(jugadores: list):
     """
-    Recibe un nombre ingresado para mostrar los logros del jugador deseado
+    This function takes a list of players and prompts the user to input a name to search for, then
+    returns the player's information if found or None if not found.
     
-    Recibe como parámetro 'jugadores', que es una lista de diccionarios 
-    Devuelve un string que muestra los logros y el nombre del jugador seleccionado. En caso de no encontralo, devuelve -1
+    :param jugadores: The parameter "jugadores" is a list of dictionaries, where each dictionary
+    represents a player and contains information such as their name, age, position, etc
+    :type jugadores: list
+    :return: either the dictionary of the player whose name matches the input name (if found in the list
+    of players), or None if no player with that name is found in the list.
     """
+    nombre = input('Ingrese el nombre del jugador a buscar: ')
+    nombre_min = nombre.lower()
     for jugador in jugadores:
-        if jugador['nombre'] == nombre_jugador:
-            logros = jugador.get('logros')
-            formato =('Logros de {0}: \n'
-                            '{1}'.format(
-                                nombre_jugador,
-                                logros
-                            ))
-            return formato
-        else:
-            return -1
+        nombre_jugador_min = jugador['nombre'].lower()
+        if re.search(fr'\b{nombre}', nombre_jugador_min):
+            return jugador
+    return None
+
+
+
+def mostrar_logros_por_nombre_ingresado() ->str:
+    """
+    Utiliza la función encontrar_nombre_jugador() para tomar un nombre ingresado
+    
+    Devuelve un str con los logros del jugador ingresado. Si no se encuentra, devuelve -1
+    """
+    jugador_encontrado = encontrar_nombre_jugador(jugadores)
+    if jugador_encontrado:
+        mensaje = '{0} - {1}'
+        mensaje = mensaje.format(
+                        jugador_encontrado['nombre'],
+                        jugador_encontrado['logros']
+        )
+        return mensaje
+    else:
+        return -1
+    
 
 
 
 
 
-def promedio_puntos_por_partido(jugadores: list):
+def mostrar_promedio_puntos_por_partido(jugadores: list):
     """
     Imprime el nombre y el promedio de puntos por partido de cada jugador de la lista, ordenados por nombre de la A a la Z
     
@@ -121,37 +161,34 @@ def promedio_puntos_por_partido(jugadores: list):
         promedio_puntos = jugador['estadisticas']['promedio_puntos_por_partido']
         nombre_promedio_jugadores.append((nombre, promedio_puntos))
 
-    nombre_promedio_jugadores.sort()
+    nombre_promedio_jugadores_asc = quicksort.quick_sort(nombre_promedio_jugadores, True)
 
-    for nombre, promedio_puntos in nombre_promedio_jugadores:
+    for nombre, promedio_puntos in nombre_promedio_jugadores_asc:
         formato = '{0} - {1}'.format(nombre, promedio_puntos)
         print(formato)
 
 
 
 
-def nombre_salon_de_la_fama(jugadores:list, nombre_jugador:str):
+def buscar_nombre_en_salon_de_la_fama(jugadores:list):
     """
-    Recibe el nombre de un basquetbolista y busca si dentro de sus logros es parte del salón de la fama
+    Utiliza la función encontrar_nombre_jugador() para tomar un nombre ingresado
     
-    Recibe una lista y un string
+    imprime un str mostrando si el jugador pertenece o no al salon de la fama
     """
-    jugador_encontrado = None
-    for jugador in jugadores:
-        if jugador['nombre'] == nombre_jugador:
-            jugador_encontrado = jugador
+    jugador_encontrado = encontrar_nombre_jugador(jugadores)
     if jugador_encontrado is not None:
         logros = jugador_encontrado['logros']
         if 'Miembro del Salon de la Fama del Baloncesto' in logros:
-            print('{0} es miembro del salón de la fama'.format(nombre_jugador))
+            print('{0} es miembro del salón de la fama'.format(jugador_encontrado['nombre']))
         else:
-            print('{0} no es miembro del salón de la fama'.format(nombre_jugador))
+            print('{0} no es miembro del salón de la fama'.format(jugador_encontrado['nombre']))
     else:
         print('No se encuentra el jugador')
 
 
 
-def mayor_cantidad(jugadores:list, clave: str) -> str:
+def calcular_mayor_cantidad_stat(jugadores:list, clave: str) -> str:
     """
     Toma la lista de jugadores y devuelve un string indicando quién sea el que tenga mayores estadísticas en la clave seleccionada
     
@@ -171,23 +208,33 @@ def mayor_cantidad(jugadores:list, clave: str) -> str:
     )
     return formato
 
+def validar_valor_a_superar():
+    valor_a_superar = input('Ingrese un valor a superar: ')
+    if re.match(r'^\d+(\.\d+)?$', valor_a_superar):
+        valor_a_superar = float(valor_a_superar)
+        return valor_a_superar
+    else:
+        return None
 
-
-def mayor_que_el_valor(jugadores:list, valor_a_superar: float, clave: str):
+def calcular_mayor_que_el_valor_ingresado(jugadores:list, clave: str):
     """
     Toma la lista de jugadores e imprime un string indicando si se superan las estadísticas en la clave seleccionada que el valor ingresado
     
-    Recibe como parámetro 'jugadores'(lista), 'clave'(la estadística que se desea calcular) y  'valor_a_superar'(el valor que ingresa el usuario)
+    Recibe como parámetro 'jugadores'(lista), 'clave'(la estadística que se desea calcular)
     """
-    for jugador in jugadores:
-        if(jugador['estadisticas'][clave] > valor_a_superar):
-            print('{0} supera el valor ingresado'.format(
-                jugador['nombre']
-            ))
+    valor_a_superar = validar_valor_a_superar()
+    if valor_a_superar is not None:
+        for jugador in jugadores:
+            if(jugador['estadisticas'][clave] > valor_a_superar):
+                print('{0} supera el valor ingresado'.format(
+                    jugador['nombre']
+                ))
+    else:
+        print('El valor ingresado no es válido')
 
 
 
-def mayor_cantidad_logros(jugadores: list) -> str:
+def calcular_mayor_cantidad_logros(jugadores: list) -> str:
     """
     Toma la lista de jugadores e imprime un string indicando quién es el que mayor cantidad de logros tiene
     
@@ -206,7 +253,7 @@ def mayor_cantidad_logros(jugadores: list) -> str:
 
 
 
-def promedio_puntos_sin_menor(jugadores:list) -> list:
+def calcular_promedio_puntos_sin_menor(jugadores:list) -> list:
     """
     Toma la lista de jugadores y devuelve una lista que excluye al jugador que menos promedio de puntos tenga.
     
@@ -227,32 +274,36 @@ def promedio_puntos_sin_menor(jugadores:list) -> list:
 
 
 
-def porcentaje_tiros_campo_posicion(jugadores:list, valor_a_superar:float):
+def ordenar_porcentaje_tiros_campo_posicion(jugadores:list):
     """
     Toma la lista de jugadores e imprime un string indicando quién sea el que tenga mayores estadísticas en la clave seleccionada que el valor ingresado
     El string los muestra ordenados según su posición.
     
     Recibe como parámetro 'jugadores'(lista), 'clave'(la estadística que se desea calcular) y  'valor_a_superar'(el valor que ingresa el usuario)
     """
-    posicion_nombre_porcentaje_jugadores = []
-    for jugador in jugadores:
-        if(jugador['estadisticas']['porcentaje_tiros_de_campo'] > valor_a_superar):
-            posicion = jugador['posicion']
-            nombre = jugador['nombre']
-            porcentaje = jugador['estadisticas']['porcentaje_tiros_de_campo']
-            posicion_nombre_porcentaje_jugadores.append((posicion, nombre, porcentaje))
-    posicion_nombre_porcentaje_jugadores.sort()
-    for posicion, nombre, porcentaje in posicion_nombre_porcentaje_jugadores:
-        print('{0} - {1} - {2}'.format(
-                posicion,
-                nombre,
-                porcentaje
-            ))
+    valor_a_superar = validar_valor_a_superar()
+    if valor_a_superar is not None:
+        posicion_nombre_porcentaje_jugadores = []
+        for jugador in jugadores:
+            if(jugador['estadisticas']['porcentaje_tiros_de_campo'] > valor_a_superar):
+                posicion = jugador['posicion']
+                nombre = jugador['nombre']
+                porcentaje = jugador['estadisticas']['porcentaje_tiros_de_campo']
+                posicion_nombre_porcentaje_jugadores.append((posicion, nombre, porcentaje))
+        posicion_nombre_porcentaje_jugadores_asc = quicksort.quick_sort(posicion_nombre_porcentaje_jugadores, True)
+        for posicion, nombre, porcentaje in posicion_nombre_porcentaje_jugadores_asc:
+            print('{0} - {1} - {2}'.format(
+                    posicion,
+                    nombre,
+                    porcentaje
+                ))
+    else:
+        print('El valor ingresado no es válido')
 
 
 
 
-def cant_jugadores_posicion(jugadores:list):
+def mostrar_cant_jugadores_posicion(jugadores:list):
     """
     Toma como parámetro la lista de jugadores e imprime la cantidad de jugadores que juegan en cada posición
     """
@@ -273,13 +324,45 @@ def cant_jugadores_posicion(jugadores:list):
         ))
 
 
-def mejores_cada_estadistica(jugadores:list):
+def mostrar_mejores_cada_estadistica(jugadores:list):
     """
     Toma como parámetro la lista de jugadores e imprime quién es el jugador que mayores estadísticas posee en cada estadística
     """
     claves_estadisticas = jugadores[0]['estadisticas'].keys()
 
     for clave in claves_estadisticas:
-        resultado = mayor_cantidad(jugadores, clave)
+        resultado = calcular_mayor_cantidad_stat(jugadores, clave)
         print(resultado)
 
+
+def calcular_posiciones(jugadores):
+    rankings = {
+        'puntos_totales': [],
+        'rebotes_totales': [],
+        'asistencias_totales': [],
+        'robos_totales': []
+    }
+
+    for jugador in jugadores:
+        nombre = jugador['nombre']
+        puntos = jugador['estadisticas']['puntos_totales']
+        rebotes = jugador['estadisticas']['rebotes_totales']
+        asistencias = jugador['estadisticas']['asistencias_totales']
+        robos = jugador['estadisticas']['robos_totales']
+        rankings['puntos_totales'].append((puntos, nombre))
+        rankings['rebotes_totales'].append((rebotes, nombre))
+        rankings['asistencias_totales'].append((asistencias, nombre))
+        rankings['robos_totales'].append((robos, nombre))
+
+    for categoria, jugadores in rankings.items():
+        jugadores = quicksort.quick_sort(jugadores, False)
+        for i in range(len(jugadores)):
+            jugador = jugadores[i]
+            mensaje = '{0}. {1}'
+            mensaje = mensaje.format(
+                    i+1,
+                    jugador[1]
+            )
+    generar_csv('ranking.csv', mensaje)   
+
+calcular_posiciones(jugadores)
