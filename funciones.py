@@ -199,11 +199,11 @@ def calcular_mayor_cantidad_stat(jugadores:list, clave: str) -> str:
     for jugador in jugadores:
         if (jugador['estadisticas'][clave] > mayor_cantidad_total):
             mayor_cantidad_total = jugador['estadisticas'][clave]
-            jugador_con_mas = jugador['nombre']
+            jugador_con_mas = jugador
     clave_formateada = clave.replace('_', ' ')
     formato = 'el jugador con más cántidad de {0} es: {1} ({2})'.format(
         clave_formateada,
-        jugador_con_mas,
+        jugador_con_mas['nombre'],
         mayor_cantidad_total
     )
     return formato
@@ -365,4 +365,3 @@ def calcular_posiciones(jugadores):
             )
     generar_csv('ranking.csv', mensaje)   
 
-calcular_posiciones(jugadores)
